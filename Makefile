@@ -18,7 +18,7 @@ ozoneFQDN     ?=ozone.${DOMAIN}
 palomarFQDN   ?=palomar.${DOMAIN}
 pdsFQDN       ?=pds.${DOMAIN}
 plcFQDN       ?=plc.${DOMAIN}
-publicApiFQDN ?=public.api.${DOMAIN}
+publicApiFQDN ?=public-api.${DOMAIN}
 socialappFQDN ?=social-app.${DOMAIN}
 
 # email address to get public-signed certs ("internal" for self-signed certs by caddy)
