@@ -10,7 +10,8 @@ DOMAIN ?=si46.world
 # - it is strongly recommended that FQDNs should be renamed only if the components provided by the fediverse/integration partner.
 # - take care for avoiding confusion, you may need to change other codes according to your trial.
 
-bgsFQDN       ?=bgs.${DOMAIN}
+#bgsFQDN       ?=bgs.${DOMAIN}
+bgsFQDN       ?=bsky.network
 bskyFQDN      ?=bsky.${DOMAIN}
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 jetstreamFQDN ?=jetstream.${DOMAIN}
