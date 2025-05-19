@@ -1,14 +1,14 @@
 version: "3.9"
 volumes:
-  caddy-data:
-    name: caddy-data
-    #   driver: local
-    #   driver_opts:
-    #     o: bind
-    #     device: ${dDir}/caddy
-    #     type: none
-  caddy-config:
-    name: caddy-config
+  # caddy-data:
+  #   name: caddy-data
+  #   #   driver: local
+  #   #   driver_opts:
+  #   #     o: bind
+  #   #     device: ${dDir}/caddy
+  #   #     type: none
+  # caddy-config:
+  #   name: caddy-config
   database:
     name: database
   opensearch:
@@ -205,7 +205,7 @@ services:
     restart: always
     depends_on:
       - database
-      - caddy
+      # - caddy
 
   pds:
     image: itaru2622/bluesky-atproto-pds:${asof}
@@ -257,7 +257,7 @@ services:
     restart: always
     depends_on:
       - database
-      - caddy
+      # - caddy
 
   bgs:
     image: itaru2622/bluesky-indigo-bgs:${asof}
@@ -288,7 +288,7 @@ services:
     restart: always
     depends_on:
       - database
-      - caddy
+      # - caddy
 
   bsky:
     # appview(api)
@@ -342,7 +342,7 @@ services:
     depends_on:
       - database
       - redis
-      - caddy
+      # - caddy
 
   social-app:
     image: itaru2622/bluesky-social-app:${asof}
@@ -392,7 +392,7 @@ services:
     depends_on:
       - opensearch
       - database
-      - caddy
+      # - caddy
 
   jetstream:
     #image: itaru2622/bluesky-jetstream:${asof}
@@ -412,8 +412,8 @@ services:
       - JETSTREAM_METRICS_LISTEN_ADDR=:6009
       - JETSTREAM_LIVENESS_TTL=96h
     restart: always
-    depends_on:
-      - caddy
+    # depends_on:
+    # - caddy
 
   ozone-standalone:
     # moderation-api:
@@ -460,7 +460,7 @@ services:
     restart: always
     depends_on:
       - database
-      - caddy
+      # - caddy
 
   ozone:
     # moderation-api:
@@ -502,7 +502,7 @@ services:
     restart: always
     depends_on:
       - database
-      - caddy
+      # - caddy
 
   ozone-daemon:
     image: itaru2622/bluesky-atproto-ozone:${asof}
@@ -541,7 +541,7 @@ services:
     depends_on:
       - ozone
       - database
-      - caddy
+      # - caddy
 
   feed-generator:
     #image: itaru2622/bluesky-feed-generator:${asof}
