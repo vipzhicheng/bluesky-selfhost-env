@@ -2,7 +2,7 @@
 # starts: definitions, need to care in especial.
 
 # domain of self-hosting bluesky (care TLD, otherwise get failure, ie: NG=>mysky.local)
-DOMAIN ?=mysky.local.com
+DOMAIN ?=si46.world
 
 # FQDN of your self hosting bsky components.  DO NOT CHANGE THOSE, FOR USUAL CASES.
 # CHANGING THESE WITHOUT UNDERSTANDING WHAT YOU DOING, GETTING TROUBLES.
@@ -17,7 +17,8 @@ jetstreamFQDN ?=jetstream.${DOMAIN}
 ozoneFQDN     ?=ozone.${DOMAIN}
 palomarFQDN   ?=palomar.${DOMAIN}
 pdsFQDN       ?=pds.${DOMAIN}
-plcFQDN       ?=plc.${DOMAIN}
+#plcFQDN       ?=plc.${DOMAIN}
+plcFQDN       ?=plc.directory
 publicApiFQDN ?=public-api.${DOMAIN}
 socialappFQDN ?=social-app.${DOMAIN}
 
@@ -25,15 +26,15 @@ socialappFQDN ?=social-app.${DOMAIN}
 EMAIL4CERTS ?=internal
 
 # mail account, which PDS wants.
-PDS_EMAIL_SMTP_URL ?= smtps://change:me@smtp.gmail.com
+PDS_EMAIL_SMTP_URL ?= smtps://info@si46.world:Adnog741@smtp.zohocloud.ca:465
+PDS_EMAIL_FROM_ADDRESS ?=info@si46.world
 
 # feed-generator account in bluesky to send posts ( last part may need to be equal to PDS_HOSTNAME)
 FEEDGEN_PUBLISHER_HANDLE ?=feedgen.${pdsFQDN}
-FEEDGEN_EMAIL ?=feedgen@example.com
-
+FEEDGEN_EMAIL ?=info@si46.world
 # ozone account in bluesky for moderation
 OZONE_ADMIN_HANDLE ?=ozone-admin.${pdsFQDN}
-OZONE_ADMIN_EMAIL  ?=ozone-admin@example.com
+OZONE_ADMIN_EMAIL  ?=info@si46.world
 
 # datetime to distinguish docker images and sources (date in %Y-%m-%d or 'latest' in docker image naming manner)
 asof ?=latest
