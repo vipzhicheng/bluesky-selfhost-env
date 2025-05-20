@@ -121,9 +121,7 @@ Sjetstream ?=jetstream
 
 # load passfile content as Makefile variables if exists
 ifeq ($(shell test -e ${passfile} && echo -n exists),exists)
-	include ${passfile}
-	@echo "########## passfile ${passfile} loaded ##########"
-	@echo $$POSTGRES_USER
+   include ${passfile}
 endif
 
 ##########################################################################################
@@ -266,5 +264,6 @@ echo:
 	@echo "gh:       ${gh}"
 	@echo "fork_repo_prefix: ${fork_repo_prefix}"
 	@echo ""
+	@echo "POSTGRES_USER: ${POSTGRES_USER}"
 	@echo "LOG_LEVEL_DEFAULT=${LOG_LEVEL_DEFAULT}"
 	@echo "########## <<<<<<<<<<<<<<"
