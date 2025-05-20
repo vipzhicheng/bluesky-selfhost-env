@@ -121,9 +121,9 @@ Sjetstream ?=jetstream
 
 # load passfile content as Makefile variables if exists
 ifeq ($(shell test -e ${passfile} && echo -n exists),exists)
-   include ${passfile}
-   @echo "########## passfile ${passfile} loaded ##########"
-   @echo $$POSTGRES_USER
+	include ${passfile}
+	@echo "########## passfile ${passfile} loaded ##########"
+	@echo $$POSTGRES_USER
 endif
 
 ##########################################################################################
