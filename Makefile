@@ -20,8 +20,10 @@ palomarFQDN   ?=palomar.${DOMAIN}
 pdsFQDN       ?=pds.${DOMAIN}
 #plcFQDN       ?=plc.${DOMAIN}
 plcFQDN       ?=plc.directory
-publicApiFQDN ?=public-api.${DOMAIN}
-socialappFQDN ?=social-app.${DOMAIN}
+#publicApiFQDN ?=public-api.${DOMAIN}
+publicApiFQDN ?=public.api.bsky.app
+#socialappFQDN ?=social-app.${DOMAIN}
+socialappFQDN ?=app.${DOMAIN}
 
 # email address to get public-signed certs ("internal" for self-signed certs by caddy)
 EMAIL4CERTS ?=internal
@@ -109,6 +111,7 @@ LOG_LEVEL_DEFAULT ?=debug
 #    export Sdep='caddy caddy-sidecar database redis opensearch test-wss test-ws test-indigo pgadmin'
 #    # no plc in Sdep, comparing below line.
 #
+#Sdep  ?=caddy caddy-sidecar database redis opensearch plc test-wss test-ws test-indigo pgadmin
 Sdep  ?=caddy caddy-sidecar database redis opensearch plc test-wss test-ws test-indigo pgadmin
 Sbsky ?=pds bgs bsky social-app palomar
 Sfeed ?=feed-generator
