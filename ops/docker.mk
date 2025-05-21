@@ -1,6 +1,6 @@
 
 docker_network ?= bsky_${DOMAIN}
-dockerCompose ?= docker compose
+dockerCompose ?= docker-compose
 auto_watchlog ?= true
 COMPOSE_PROFILES ?= $(shell echo ${_nrepo} | sed 's/ /,/g')
 

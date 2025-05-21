@@ -3,34 +3,35 @@
 https://github.com/itaru2622/bluesky-selfhost-env
 
 ## Contents:
-  - [Motivation](#motivation)
-  - [Current Status](#status)
-  - [Operations for self-hosting bluesky](#ops)
-      - [configuration](#ops0-configparams)
-      - [prepare your network](#ops1-prepare)
-      - [check](#ops2-check)
-      - [deploy](#ops3-run)
-      - [play](#ops5-play)
-      - [shutdown](#ops6-stop)   
-  - [Hacks](#hack)
-      - [Create accounts on your bluesky in easy](#hack-ops-CreateAccount)
-      - [Build from source by yourself](#hack-clone-and-build)
-      - Check Env Vars [in docker-compose](#hack-EnvVars-Compose) and [in sources](#hack-EnvVars-Sources)
-      - [Create a table showing {env x container => value} from source and docker-compose](#hack-EnvVars-Table)
-  - [Appendix](#appendix)
-      - [Screen shots](#screenshots)
-      - [Sourses in Use](#sources)
-      - [Sample DNS Server Config(bind9)](#sample-dns-config)
-  - [References](#refs)
+
+- [Motivation](#motivation)
+- [Current Status](#status)
+- [Operations for self-hosting bluesky](#ops)
+  - [configuration](#ops0-configparams)
+  - [prepare your network](#ops1-prepare)
+  - [check](#ops2-check)
+  - [deploy](#ops3-run)
+  - [play](#ops5-play)
+  - [shutdown](#ops6-stop)
+- [Hacks](#hack)
+  - [Create accounts on your bluesky in easy](#hack-ops-CreateAccount)
+  - [Build from source by yourself](#hack-clone-and-build)
+  - Check Env Vars [in docker-compose](#hack-EnvVars-Compose) and [in sources](#hack-EnvVars-Sources)
+  - [Create a table showing {env x container => value} from source and docker-compose](#hack-EnvVars-Table)
+- [Appendix](#appendix)
+  - [Screen shots](#screenshots)
+  - [Sourses in Use](#sources)
+  - [Sample DNS Server Config(bind9)](#sample-dns-config)
+- [References](#refs)
 
 ## <a id="motivation" />Motivation
 
 This repository aims to get self-hosted a bluesky environment easy, with:
 
- - Configurable hosting domain: easily tuned by environment variable (${DOMAIN}).
- - Reproducibility: full disclosure of all configurations and operations, including reverse proxy rules and patches to the original code of bluesky-social.
- - Simplicity: all bluesky components run on one host, powered by docker-compose.
- - Minimal remapping: the simplest possible mapping rules between FQDN, reverse proxy, and docker-container, for easy understanding and tuning.
+- Configurable hosting domain: easily tuned by environment variable (${DOMAIN}).
+- Reproducibility: full disclosure of all configurations and operations, including reverse proxy rules and patches to the original code of bluesky-social.
+- Simplicity: all bluesky components run on one host, powered by docker-compose.
+- Minimal remapping: the simplest possible mapping rules between FQDN, reverse proxy, and docker-container, for easy understanding and tuning.
 
 Currently, my latest release is <strong>2025-05-11</strong>, based on the <strong>2025-05-11</strong> code from bluesky-social.<br>
 
@@ -41,25 +42,26 @@ Unfortunately, some features may not work correctly; the reasons for this are de
 
 Test results with 'asof-2024-06-02' and later:<BR>
 
-   -  ok: Create account on pds (via social-app, bluesky API).
-   -  ok: Basic usages on social-app
-       -  ok: Sign in, edit profile, post/repost articles, search posts/users/feeds, vote like/follow.
-       -  ok: Receive notifications when others vote like/follow you.
-       -  ok: Subscribe/unsubscribe to labeler in profile page.
-       -  ok: Report to labeler for any post.
-       -  not yet: DM(chat) with others.
-   -  ok: Integrate with [feed-generator](https://github.com/bluesky-social/feed-generator) NOTE: it has some delay, reload on social-app.
-   -  ok: Moderate with [ozone](https://github.com/bluesky-social/ozone).
-       -  ok: Sign in and configure labels on ozone-UI.
-       -  ok: Receive the report sent by user.
-       -  ok: Assign label to the post/account on ozone-UI, then events published to subscribeLabels.
-       -  ok: The view of post changes on social-app when using [workaround tool](https://github.com/itaru2622/bluesky-selfhost-env/blob/master/ops-helper/apiImpl/subscribeLabels2BskyDB.ts).
-          -  NOTE: without workaround tool, the view is not changed. refer https://github.com/bluesky-social/atproto/issues/2552
-   -  ok: Subscribe to events from pds/bgs(relay)/ozone by firehose/websocket.
-   -  ok: Subscribe to events from jetstream, since 2024-10-19r1
-   -  not yet: Others.
+- ok: Create account on pds (via social-app, bluesky API).
+- ok: Basic usages on social-app
+  - ok: Sign in, edit profile, post/repost articles, search posts/users/feeds, vote like/follow.
+  - ok: Receive notifications when others vote like/follow you.
+  - ok: Subscribe/unsubscribe to labeler in profile page.
+  - ok: Report to labeler for any post.
+  - not yet: DM(chat) with others.
+- ok: Integrate with [feed-generator](https://github.com/bluesky-social/feed-generator) NOTE: it has some delay, reload on social-app.
+- ok: Moderate with [ozone](https://github.com/bluesky-social/ozone).
+  - ok: Sign in and configure labels on ozone-UI.
+  - ok: Receive the report sent by user.
+  - ok: Assign label to the post/account on ozone-UI, then events published to subscribeLabels.
+  - ok: The view of post changes on social-app when using [workaround tool](https://github.com/itaru2622/bluesky-selfhost-env/blob/master/ops-helper/apiImpl/subscribeLabels2BskyDB.ts).
+    - NOTE: without workaround tool, the view is not changed. refer https://github.com/bluesky-social/atproto/issues/2552
+- ok: Subscribe to events from pds/bgs(relay)/ozone by firehose/websocket.
+- ok: Subscribe to events from jetstream, since 2024-10-19r1
+- not yet: Others.
 
 [back to top](#top)
+
 ## <a id="ops"/>Operations for self-hosting bluesky (powered by Makefile)
 
 The following operations assume that the self-hosting domain is <strong>mysky.local.com</strong> (defined in Makefile).<br>
@@ -67,7 +69,7 @@ You can change the domain name by setting the environment variable as follows:
 
 ### <a id="ops0-configparams"/>0) Configure params and install tools for ops
 
-```bash
+````bash
 ### <a id="ops0-configparams"/>0) Configure parameters and install tools
 
 ```bash
@@ -76,7 +78,7 @@ export DOMAIN=whatever.yourdomain.com
 
 # 2) Set 'asof' date (YYYY-MM-DD or 'latest') to select docker images and sources.
 #    Example: 2025-05-11 (latest prebuild) or 'latest' (following docker image naming).
-export asof=2025-05-11
+export asof=2025-05-20
 
 # 3) Set email addresses:
 
@@ -101,11 +103,11 @@ make echo
 
 # 5) Generate and check container secrets.
 make genSecrets
-```
+````
 
 ### <a id="ops1-prepare"/>1) Prepare your network
 
-1) Create DNS A-Records in your self-hosting network.<BR>
+1. Create DNS A-Records in your self-hosting network.<BR>
 
 At a minimum, you will need the following two A-Records.<BR>
 Refer the [appendix](#sample-dns-config) for a sample DNS server (bind9) configuration.
@@ -115,10 +117,8 @@ Refer the [appendix](#sample-dns-config) for a sample DNS server (bind9) configu
      -  *.${DOMAIN}
 ```
 
-2) Generate and install a CA certificate (necessary for private/closed networks and when working with self-signed certificates).
-    -  Once generated, copy the crt and key files to ./certs/root.{crt,key}
-    -  Important: Install root.crt on your host machine and within your browser.
-Follow the steps below to easily obtain self-signed CA certificates:
+2. Generate and install a CA certificate (necessary for private/closed networks and when working with self-signed certificates). - Once generated, copy the crt and key files to ./certs/root.{crt,key} - Important: Install root.crt on your host machine and within your browser.
+   Follow the steps below to easily obtain self-signed CA certificates:
 
 ```
 # Get and store the self-signed CA certificate into ./certs/root.{crt,key} with caddy.
@@ -227,14 +227,14 @@ make api_ozone_member_add   role=  did=did:plc:
 ```
 
 ### <a id="ops4-run-jetstream"/>4-3) Deploy Jetstream
+
 ```bash
 make docker-start-bsky-jetstream
 ```
 
-
 ### <a id="ops5-play"/>5) Play with self-hosted blusky.
 
-Access ```https://social-app.${DOMAIN}/``` (e.g., ```https://social-app.mysky.local.com/```) in your browser.
+Access `https://social-app.${DOMAIN}/` (e.g., `https://social-app.mysky.local.com/`) in your browser.
 
 See the [screenshots](./docs/screenshots) for instructions on creating or signing in to an account.
 
@@ -247,7 +247,7 @@ websocat "wss://jetstream.${DOMAIN}/subscribe?wantedCollections=app.bsky.actor.p
 
 ### <a id="ops5-play-ozone"/>5-2) Play with ozone (moderation)
 
-Access ```https://ozone.${DOMAIN}/configure``` (e.g., ```https://ozone.mysky.local.com/configure```) in your browser.
+Access `https://ozone.${DOMAIN}/configure` (e.g., `https://ozone.mysky.local.com/configure`) in your browser.
 
 ### <a id="ops6-stop"/>6) Stop all containters
 
@@ -260,6 +260,7 @@ make docker-stop-with-clean
 ```
 
 [back to top](#top)
+
 ## <a id="hack"/>Hack
 
 ### <a id="hack-ops-CreateAccount"/>Create accounts on your bluesky easily
@@ -309,6 +310,7 @@ make build DOMAIN= f=./docker-compose-builder.yaml
 ```
 
 [back to top](#top)
+
 ### <a id="hack-ops-development"/>Streamlined Development Using Your Remote Fork Repository
 
 By setting the fork_repo_prefix variable before cloneAll, it registers your remote fork repository with `git remote add fork ....`
@@ -331,9 +333,10 @@ make exec under=./repos/justOneRepo cmd='git push fork develop-branch'
 ```
 
 [back to top](#top)
+
 ### <a id="hack-EnvVars-Compose"/>Check Env Vars in docker-compose
 
-1) Get all env vars in docker-compose
+1. Get all env vars in docker-compose
 
 ```bash
 # Names and their values
@@ -357,7 +360,7 @@ cat ./docker-compose-builder.yaml | yq -y "${_yqpath}" \
   | awk -F= '{print $1}' | sort -u -f
 ```
 
-2) Get env vars regarding {URL | DID | DOMAIN} == mapping rules in docker-compose
+2. Get env vars regarding {URL | DID | DOMAIN} == mapping rules in docker-compose
 
 ```bash
 # get {name=value} of env vars regarding { URL | DID | DOMAIN }
@@ -373,7 +376,7 @@ cat ./docker-compose-builder.yaml | yq -y .services[].environment \
  | tee /tmp/url-or-did.txt
 ```
 
-3) Get mapping rules in reverse proxy (caddy )
+3. Get mapping rules in reverse proxy (caddy )
 
 ```bash
 # dump rules, no idea to convert into  easy readable format...
@@ -381,9 +384,10 @@ cat config/caddy/Caddyfile
 ```
 
 [back to top](#top)
+
 ### <a id="hack-EnvVars-Sources"/>Check Env Vars in sources
 
-1) Get files related env vars in sources
+1. Get files related env vars in sources
 
 ```bash
 # Files named *env*
@@ -395,7 +399,7 @@ find repos -type f | grep -v /.git/  | xargs grep -l export \
   | grep -v -e .js$ -e .jsx$  -e .ts$ -e .tsx$ -e .go$ -e go.sum$ -e go.mod$ -e .po$ -e .json$ -e .patch$ -e .lock$ -e .snap$
 ```
 
-2) Get all env vars from source code
+2. Get all env vars from source code
 
 ```bash
 # In an easy way
@@ -440,7 +444,7 @@ cat /tmp/vars-js1.txt /tmp/vars-js2.txt /tmp/vars-go.txt /tmp/vars-compose.txt |
 cat /tmp/envs.txt  | grep -e URL -e ENDPOINT -e DID -e HOST -e PORT -e ADDRESS
 ```
 
-3) Find {URL | DID | bsky } near env names in sources
+3. Find {URL | DID | bsky } near env names in sources
 
 ```bash
 find repos -type f | grep -v -e /.git  -e __ -e .json$ \
@@ -448,7 +452,7 @@ find repos -type f | grep -v -e /.git  -e __ -e .json$ \
   | grep -A2 -B2 -e :// -e did: -e bsky
 ```
 
-4) Find bsky.{social, app, network} in sources (to check hard-coded domain/FQDN)
+4. Find bsky.{social, app, network} in sources (to check hard-coded domain/FQDN)
 
 ```bash
 find repos -type f | grep -v -e /.git -e /tests/ -e /__ -e Makefile -e .yaml$ -e .md$  -e .sh$ -e .json$ -e .txt$ -e _test.go$ \
@@ -456,6 +460,7 @@ find repos -type f | grep -v -e /.git -e /tests/ -e /__ -e Makefile -e .yaml$ -e
 ```
 
 [back to top](#top)
+
 ### <a id="hack-EnvVars-Table"/>Create a table showing {env x container => value} from source and docker-compose.
 
 This task uses the result(/tmp/envs.txt) of [the above](#hack-EnvVars-Sources) as input.
@@ -466,6 +471,7 @@ cat ./docker-compose-builder.yaml | ./ops-helper/compose2envtable/main.py -l /tm
 ```
 
 [back to top](#top)
+
 ### <a id="hack-self-signed-certs"/>Regarding self-signed certificates x HTTPS x containers.
 
 This self-hosting env tries to use self-signed certificates as trusted certificates by installing them into containers.
@@ -478,37 +484,37 @@ Therefore, all of the methods below are involved for safety when using self-sign
 - The host deploys /etc/ssl/certs/ca-certificates.crts to containers by volume mount.
 - Define env vars for self-signed certificates, such as GOINSECURE, NODE_TLS_REJECT_UNAUTHORIZED for each language.
 
-
 [back to top](#top)
+
 ## <a id="appendix"/>Appendix
 
 ### <a id="screenshots"/>Screen shots:
 
-| Create account | Sign-in|
-|:---|:---|
-|<img src="./docs/screenshots/1-bluesky-create-account.png" style="height:45%; width:45%">|<img src="./docs/screenshots/1-bluesky-sign-in.png"  style="height:45%; width:45%">|
-|<img src="./docs/screenshots/2-bluesky-choose-server.png"  style="height:45%; width:45%">|<img src="./docs/screenshots/2-bluesky-choose-server.png"  style="height:45%; width:45%">|
-|<img src="./docs/screenshots/3-bluesky-create-account.png"  style="height:45%; width:45%">|<img src="./docs/screenshots/3-bluesky-sign-in.png"  style="height:45%; width:45%">|
+| Create account                                                                             | Sign-in                                                                                   |
+| :----------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| <img src="./docs/screenshots/1-bluesky-create-account.png" style="height:45%; width:45%">  | <img src="./docs/screenshots/1-bluesky-sign-in.png"  style="height:45%; width:45%">       |
+| <img src="./docs/screenshots/2-bluesky-choose-server.png"  style="height:45%; width:45%">  | <img src="./docs/screenshots/2-bluesky-choose-server.png"  style="height:45%; width:45%"> |
+| <img src="./docs/screenshots/3-bluesky-create-account.png"  style="height:45%; width:45%"> | <img src="./docs/screenshots/3-bluesky-sign-in.png"  style="height:45%; width:45%">       |
 
 ### <a id="sources"/>Sources in use:
 
-| components     | url (origin)                                           |
-|----------------|:-------------------------------------------------------|
-| atproto        | https://github.com/bluesky-social/atproto.git          |
-| indigo         | https://github.com/bluesky-social/indigo.git           |
-| social-app     | https://github.com/bluesky-social/social-app.git       |
-| feed-generator | https://github.com/bluesky-social/feed-generator.git   |
-| pds            | https://github.com/bluesky-social/pds.git              |
-| ozone          | https://github.com/bluesky-social/ozone.git            |
-| did-method-plc | https://github.com/did-method-plc/did-method-plc.git   |
-| jetstream      | https://github.com/bluesky-social/jetstream.git        |
+| components     | url (origin)                                         |
+| -------------- | :--------------------------------------------------- |
+| atproto        | https://github.com/bluesky-social/atproto.git        |
+| indigo         | https://github.com/bluesky-social/indigo.git         |
+| social-app     | https://github.com/bluesky-social/social-app.git     |
+| feed-generator | https://github.com/bluesky-social/feed-generator.git |
+| pds            | https://github.com/bluesky-social/pds.git            |
+| ozone          | https://github.com/bluesky-social/ozone.git          |
+| did-method-plc | https://github.com/did-method-plc/did-method-plc.git |
+| jetstream      | https://github.com/bluesky-social/jetstream.git      |
 
 other dependencies:
 
-| components     | url (origin)                                                            |
-|----------------|:------------------------------------------------------------------------|
-| reverse proxy  | https://github.com/caddyserver/caddy (official docker image of caddy:2) |
-| DNS server     | bind9 or others, such as https://github.com/itaru2622/docker-bind9.git  |
+| components    | url (origin)                                                            |
+| ------------- | :---------------------------------------------------------------------- |
+| reverse proxy | https://github.com/caddyserver/caddy (official docker image of caddy:2) |
+| DNS server    | bind9 or others, such as https://github.com/itaru2622/docker-bind9.git  |
 
 [back to top](#top)
 
@@ -583,16 +589,19 @@ nameserver 192.168.1.27
 ```
 
 [back to top](#top)
+
 ## <a id="refs"/>References
 
 special thanks to prior works on self-hosting.
-   - https://github.com/ikuradon/atproto-starter-kit/tree/main
-   - https://github.com/bluesky-social/atproto/discussions/2026 and https://syui.ai/blog/post/2024/01/08/bluesky/
+
+- https://github.com/ikuradon/atproto-starter-kit/tree/main
+- https://github.com/bluesky-social/atproto/discussions/2026 and https://syui.ai/blog/post/2024/01/08/bluesky/
 
 hacks in bluesky:
-   - https://github.com/bluesky-social/social-app/blob/main/docs/build.md
-   - https://github.com/bluesky-social/indigo/blob/main/HACKING.md
-   - https://github.com/bluesky-social/ozone/blob/main/HOSTING.md
-   - https://github.com/bluesky-social/pds/blob/main/installer.sh
+
+- https://github.com/bluesky-social/social-app/blob/main/docs/build.md
+- https://github.com/bluesky-social/indigo/blob/main/HACKING.md
+- https://github.com/bluesky-social/ozone/blob/main/HOSTING.md
+- https://github.com/bluesky-social/pds/blob/main/installer.sh
 
 [back to top](#top)
