@@ -292,7 +292,7 @@ services:
 
   bsky:
     # appview(api)
-    image: itaru2622/bluesky-atproto-bsky:${asof}
+    image: astranethub/bluesky-atproto-bsky:${asof}
     ports:
       - 2584:2584
     expose:
