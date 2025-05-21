@@ -38,43 +38,43 @@ networks:
     external: true
 
 services:
-  #   caddy:
-  # #   reverse proxy
-  # #   cf. https://blog.kurokobo.com/archives/3669#Caddy_acme_server
-  #     image: caddy:2
-  #     ports:
-  #       - 80:80
-  #       - 443:443
-  #       - 443:443/udp
-  #       - 9000:9000
-  #     environment:
-  #       - GOINSECURE=${GOINSECURE}
-  #       - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
-  #       - DOMAIN=${DOMAIN}
-  #       - EMAIL4CERTS=${EMAIL4CERTS}
-  #       - BSKY_ADMIN_PASSWORDS=${BSKY_ADMIN_PASSWORDS}
-  #     volumes:
-  #       - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
-  #       # CA certificates for self-signed. >>>
-  #       - ./certs/root.crt:/data/caddy/pki/authorities/local/root.crt:ro
-  #       - ./certs/root.key:/data/caddy/pki/authorities/local/root.key:ro
-  #       # CA certificates for self-signed. <<<
-  #       - caddy-data:/data
-  #       - caddy-config:/config
-  #     healthcheck:
-  #       # https://caddy.community/t/what-is-the-best-practise-for-doing-a-health-check-for-caddy-containers/12995
-  #       test: "wget --no-verbose --tries=1 --spider http://localhost:2019/metrics || exit 1"
-  #       interval: 5s
-  #       retries: 20
+  caddy:
+    #   reverse proxy
+    #   cf. https://blog.kurokobo.com/archives/3669#Caddy_acme_server
+    image: caddy:2
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+      - 9000:9000
+    environment:
+      - GOINSECURE=${GOINSECURE}
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
+      - DOMAIN=${DOMAIN}
+      - EMAIL4CERTS=${EMAIL4CERTS}
+      - BSKY_ADMIN_PASSWORDS=${BSKY_ADMIN_PASSWORDS}
+    volumes:
+      - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
+      # CA certificates for self-signed. >>>
+      - ./certs/root.crt:/data/caddy/pki/authorities/local/root.crt:ro
+      - ./certs/root.key:/data/caddy/pki/authorities/local/root.key:ro
+      # CA certificates for self-signed. <<<
+      - caddy-data:/data
+      - caddy-config:/config
+    healthcheck:
+      # https://caddy.community/t/what-is-the-best-practise-for-doing-a-health-check-for-caddy-containers/12995
+      test: "wget --no-verbose --tries=1 --spider http://localhost:2019/metrics || exit 1"
+      interval: 5s
+      retries: 20
 
-  # # to generate HTTPS certifications on-demand >>>>>
-  #   caddy-sidecar:
-  #     image: httpd:2
-  #     environment:
-  #       - GOINSECURE=${GOINSECURE}
-  #       - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
-  #     volumes:
-  #        - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+  # to generate HTTPS certifications on-demand >>>>>
+  caddy-sidecar:
+    image: httpd:2
+    environment:
+      - GOINSECURE=${GOINSECURE}
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
+    volumes:
+      - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
   # to generate HTTPS certifications on-demand <<<<<
 
   # debug for caddy>>>
