@@ -208,7 +208,7 @@ services:
       # - caddy
 
   pds:
-    image: itaru2622/bluesky-atproto-pds:${asof}
+    image: astranethub/bluesky-atproto-pds:${asof}
     ports:
       - 2583:2583
     expose:
