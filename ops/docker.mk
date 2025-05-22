@@ -63,6 +63,11 @@ ifeq ($(auto_watchlog),true)
 docker-start-bsky-only:: docker-watchlog
 endif
 
+docker-start-pds-only:: _applySpdsOnly _dockerUp
+ifeq ($(auto_watchlog),true)
+docker-start-pds-only:: docker-watchlog
+endif
+
 docker-start-bsky-feedgen:: _applySfeed _dockerUp
 ifeq ($(auto_watchlog),true)
 docker-start-bsky-feedgen:: docker-watchlog
@@ -117,6 +122,8 @@ _applySbsky:
 	$(eval services=${Sbsky})
 _applySbskyOnly:
 	$(eval services=bsky)
+_applySpdsOnly:
+	$(eval services=pds)
 _applySfeed:
 	$(eval services=${Sfeed})
 _applySozone:
