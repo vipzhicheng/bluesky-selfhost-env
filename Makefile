@@ -12,7 +12,8 @@ DOMAIN ?=si46.world
 
 #bgsFQDN       ?=bgs.${DOMAIN}
 bgsFQDN       ?=bsky.network
-bskyFQDN      ?=bsky.${DOMAIN}
+#bskyFQDN      ?=bsky.${DOMAIN}
+bskyFQDN      ?=api.bsky.app
 feedgenFQDN   ?=feed-generator.${DOMAIN}
 jetstreamFQDN ?=jetstream.${DOMAIN}
 ozoneFQDN     ?=ozone.${DOMAIN}
