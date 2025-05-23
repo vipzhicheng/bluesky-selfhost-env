@@ -345,6 +345,59 @@ services:
       - redis
       # - caddy
 
+  bsky-sub:
+    # appview(api)
+    image: astranethub/bluesky-atproto-bsky-sub:${asof}
+    ports:
+      - 4584:2584
+    expose:
+      - 4584
+    command: node --max-old-space-size=32768 --enable-source-maps api.js
+    # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. >>>>
+    user: root
+    # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
+    environment:
+      - BSKY_ADMIN_PASSWORDS=${BSKY_ADMIN_PASSWORDS}
+      - BSKY_BLOB_CACHE_LOC=/cache/
+      - BSKY_BSYNC_HTTP_VERSION=1.1
+      - BSKY_BSYNC_PORT=4002
+      - BSKY_BSYNC_URL=http://bsky:4002
+      - BSKY_COURIER_URL=http://fake-courier.example.invalid/
+      - BSKY_DATAPLANE_HTTP_VERSION=1.1
+      - BSKY_DATAPLANE_PORT=4001
+      - BSKY_DATAPLANE_URLS=http://bsky:4001
+      - BSKY_DB_POSTGRES_SCHEMA=bsky
+      - BSKY_DB_POSTGRES_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database/bsky
+      - BSKY_DID_PLC_URL=https://${plcFQDN}
+      - BSKY_LABELS_FROM_ISSUER_DIDS=${BSKY_LABELS_FROM_ISSUER_DIDS}
+      - BSKY_PUBLIC_URL=https://${bskyFQDN}
+      - BSKY_REPO_PROVIDER=wss://${bgsFQDN}
+      - BSKY_SEARCH_URL=https://${palomarFQDN}
+      - BSKY_SERVER_DID=did:web:${bskyFQDN}
+      - BSKY_SERVICE_SIGNING_KEY=${BSKY_SERVICE_SIGNING_KEY}
+      - DEBUG_MODE=1
+      - DID_PLC_URL=https://${plcFQDN}
+      - ENABLE_MIGRATIONS=false
+      - GOINSECURE=${GOINSECURE}
+      - LOG_DESTINATION=1
+      - LOG_ENABLED=true
+      - LOG_LEVEL=${LOG_LEVEL_DEFAULT}
+      - MOD_SERVICE_DID=did:web:${ozoneFQDN}
+      - NODE_ENV=development
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
+      - PORT=2584
+      - REDIS_HOST=redis
+    volumes:
+      # supporting self-signed certificates, easiest way >>>>
+      # - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # supporting self-signed certificates, easiest way <<<<
+      - bsky:/cache/
+    #     - ./repos/atproto/services/bsky/api.js:/app/services/bsky/api.js:ro
+    restart: always
+    depends_on:
+      - database
+      - redis
+
   social-app:
     image: itaru2622/bluesky-social-app:${asof}
     ports:
