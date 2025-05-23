@@ -63,9 +63,9 @@ ifeq ($(auto_watchlog),true)
 docker-start-bsky-only:: docker-watchlog
 endif
 
-docker-start-bsky-only:: _applySbskySubOnly _dockerUp
+docker-start-bsky-sub-only:: _applySbskySubOnly _dockerUp
 ifeq ($(auto_watchlog),true)
-docker-start-bsky-only:: docker-watchlog
+docker-start-bsky-sub-only:: docker-watchlog
 endif
 
 docker-start-pds-only:: _applySpdsOnly _dockerUp
