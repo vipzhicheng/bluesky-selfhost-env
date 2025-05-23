@@ -442,7 +442,7 @@ services:
       - MOD_SERVICE_DID=did:web:${ozoneFQDN}
       - NODE_ENV=development
       - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
-      - PORT=4584
+      - BSKY_PORT=2584
       - REDIS_HOST=redis
     volumes:
       # supporting self-signed certificates, easiest way >>>>
