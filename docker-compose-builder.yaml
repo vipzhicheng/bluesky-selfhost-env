@@ -22,6 +22,8 @@ volumes:
     name: feed-generator
   pds:
     name: pds
+  pds-dev:
+    name: pds-dev
   redis:
     name: redis
   jetstream:
@@ -290,7 +292,64 @@ services:
     depends_on:
       - database
       - caddy
-
+  pds-dev:
+    image: astranethub/bluesky-atproto-pds-dev:${asof}
+    profiles: ["", "atproto"]
+    build:
+      context: ./repos/atproto/
+      dockerfile: services/pds/Dockerfile
+      args:
+        - http_proxy=${http_proxy}
+        - https_proxy=${https_proxy}
+        - no_proxy=${no_proxy}
+        - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
+    ports:
+      - 3583:2583
+    expose:
+      - 3583
+    # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. >>>>
+    user: root
+    # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
+    environment:
+      - DEBUG_MODE=1
+      - GOINSECURE=${GOINSECURE}
+      - LOG_DESTINATION=1
+      - LOG_ENABLED=true
+      - LOG_LEVEL=${LOG_LEVEL_DEFAULT}
+      - NODE_ENV=development
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
+      - PDS_ADMIN_PASSWORD=${PDS_ADMIN_PASSWORD}
+      - PDS_BLOBSTORE_DISK_LOCATION=/pds/blobs
+      - PDS_BLOB_UPLOAD_LIMIT=104857600
+      - PDS_BSKY_APP_VIEW_DID=did:web:bsky.si46.world
+      - PDS_BSKY_APP_VIEW_URL=https://bsky.si46.world
+      - PDS_CRAWLERS=https://${bgsFQDN}
+      - PDS_DATA_DIRECTORY=/pds
+      - PDS_DEV_MODE=false
+      #     - PDS_BLOBSTORE_DISK_TMP_LOCATION=/pds/image/tmp
+      - PDS_DID_PLC_URL=https://${plcFQDN}
+      - PDS_EMAIL_FROM_ADDRESS=no-reply@gmail.com
+      - PDS_EMAIL_SMTP_URL=${PDS_EMAIL_SMTP_URL}
+      - PDS_ENABLE_DID_DOC_WITH_SESSION=true
+      - PDS_HOSTNAME=pds-dev.si46.world
+      - PDS_INVITE_INTERVAL=604800000
+      - PDS_INVITE_REQUIRED=false
+      - PDS_JWT_SECRET=${PDS_JWT_SECRET}
+      - PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX=${PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX}
+      - PDS_PORT=2583
+      # starts: unset optional env for tesing ozone >>>>>>>
+      #     - PDS_MOD_SERVICE_DID=did:web:${ozoneFQDN}
+      #     - PDS_MOD_SERVICE_URL=https://${ozoneFQDN}
+      #     - PDS_REPORT_SERVICE_DID=did:web:${ozoneFQDN}
+      #     - PDS_REPORT_SERVICE_URL=https://${ozoneFQDN}
+      # ends: unset optional env for tesing ozone <<<<<<<
+      - PDS_SERVICE_DID=did:web:pds-dev.si46.world
+    volumes:
+      # supporting self-signed certificates, easiest way >>>>
+      - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # supporting self-signed certificates, easiest way <<<<
+      - pds-dev:/pds
+    restart: always
   bgs:
     image: astranethub/bluesky-indigo-bgs:${asof}
     profiles: ["", "indigo"]
