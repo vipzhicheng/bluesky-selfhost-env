@@ -72,6 +72,10 @@ docker-start-pds-dev-only:: _applySpdsDevOnly _dockerUp
 ifeq ($(auto_watchlog),true)
 docker-start-pds-dev-only:: docker-watchlog
 endif
+docker-start-social-app-only:: _applySsocialAppOnly _dockerUp
+ifeq ($(auto_watchlog),true)
+docker-start-social-app-only:: docker-watchlog
+endif
 
 docker-start-pds-only:: _applySpdsOnly _dockerUp
 ifeq ($(auto_watchlog),true)
@@ -136,6 +140,8 @@ _applySbskySubOnly:
 	$(eval services=bsky-sub)
 _applySpdsDevOnly:
 	$(eval services=pds-dev)
+_applySsocialAppOnly:
+	$(eval services=social-app)
 _applySpdsOnly:
 	$(eval services=pds)
 _applySfeed:

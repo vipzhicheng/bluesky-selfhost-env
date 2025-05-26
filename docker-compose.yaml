@@ -451,7 +451,7 @@ services:
       - redis
 
   social-app:
-    image: itaru2622/bluesky-social-app:${asof}
+    image: astranethub/bluesky-social-app:${asof}
     ports:
       - 8100:8100
     command: /usr/bin/bskyweb serve
@@ -461,7 +461,7 @@ services:
       # supporting self-signed certificates, easiest way <<<<
     environment:
       # cf. https://github.com/bluesky-social/social-app/blob/main/bskyweb/example.env and https://github.com/bluesky-social/bsky-docs/issues/63 >>>>
-      - ATP_APPVIEW_HOST=https://${publicApiFQDN}
+      - ATP_APPVIEW_HOST=https://public-api.si46.world
       # cf. https://github.com/bluesky-social/social-app/blob/main/bskyweb/example.env and https://github.com/bluesky-social/bsky-docs/issues/63 <<<<
       - GOINSECURE=${GOINSECURE}
       - GOLOG_LOG_LEVEL=${LOG_LEVEL_DEFAULT}
