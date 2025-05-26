@@ -68,6 +68,11 @@ ifeq ($(auto_watchlog),true)
 docker-start-bsky-sub-only:: docker-watchlog
 endif
 
+docker-start-pds-dev-only:: _applySpdsDevOnly _dockerUp
+ifeq ($(auto_watchlog),true)
+docker-start-pds-dev-only:: docker-watchlog
+endif
+
 docker-start-pds-only:: _applySpdsOnly _dockerUp
 ifeq ($(auto_watchlog),true)
 docker-start-pds-only:: docker-watchlog
@@ -129,6 +134,8 @@ _applySbskyOnly:
 	$(eval services=bsky)
 _applySbskySubOnly:
 	$(eval services=bsky-sub)
+_applySpdsDevOnly:
+	$(eval services=pds-dev)
 _applySpdsOnly:
 	$(eval services=pds)
 _applySfeed:
