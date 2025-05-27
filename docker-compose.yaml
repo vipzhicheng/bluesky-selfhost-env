@@ -439,6 +439,7 @@ services:
       - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
       - BSKY_PORT=2584
       - REDIS_HOST=redis
+      - CLUSTER_WORKER_COUNT=4
     volumes:
       # supporting self-signed certificates, easiest way >>>>
       # - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
