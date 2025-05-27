@@ -404,7 +404,7 @@ services:
       - 4584:2584
     expose:
       - 4584
-    command: node --max-old-space-size=8192 --enable-source-maps sub.js
+    command: node --max-old-space-size=6144 --enable-source-maps sub.js
     # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. >>>>
     user: root
     # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
