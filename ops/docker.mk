@@ -60,27 +60,29 @@ endif
 
 docker-start-bsky-only:: _applySbskyOnly _dockerUp
 ifeq ($(auto_watchlog),true)
-docker-start-bsky-only:: docker-watchlog
+docker-start-bsky-only:: docker-watchlog-bsky
 endif
 
 docker-start-bsky-sub-only:: _applySbskySubOnly _dockerUp
 ifeq ($(auto_watchlog),true)
-docker-start-bsky-sub-only:: docker-watchlog
+docker-start-bsky-sub-only:: docker-watchlog-bsky-sub
 endif
 
 docker-start-pds-dev-only:: _applySpdsDevOnly _dockerUp
 ifeq ($(auto_watchlog),true)
-docker-start-pds-dev-only:: docker-watchlog
-endif
-docker-start-social-app-only:: _applySsocialAppOnly _dockerUp
-ifeq ($(auto_watchlog),true)
-docker-start-social-app-only:: docker-watchlog
+docker-start-pds-dev-only:: docker-watchlog-pds-dev
 endif
 
 docker-start-pds-only:: _applySpdsOnly _dockerUp
 ifeq ($(auto_watchlog),true)
-docker-start-pds-only:: docker-watchlog
+docker-start-pds-only:: docker-watchlog-pds
 endif
+
+docker-start-social-app-only:: _applySsocialAppOnly _dockerUp
+ifeq ($(auto_watchlog),true)
+docker-start-social-app-only:: docker-watchlog-social-app
+endif
+
 
 docker-start-bsky-feedgen:: _applySfeed _dockerUp
 ifeq ($(auto_watchlog),true)
@@ -116,6 +118,21 @@ docker-stop-with-clean:
 
 docker-watchlog:
 	-${dockerCompose} -f ${f} logs -f || true
+
+docker-watchlog-pds-dev:
+	-${dockerCompose} -f ${f} logs --tail=20 -f pds-dev || true
+
+docker-watchlog-pds:
+	-${dockerCompose} -f ${f} logs --tail=20 -f pds || true
+
+docker-watchlog-bsky:
+	-${dockerCompose} -f ${f} logs --tail=20 -f bsky || true
+
+docker-watchlog-bsky-sub:
+	-${dockerCompose} -f ${f} logs --tail=20 -f bsky-sub || true
+
+docker-watchlog-social-app:
+	-${dockerCompose} -f ${f} logs --tail=20 -f social-app || true
 
 docker-check-status:
 	docker ps -a
