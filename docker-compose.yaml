@@ -390,7 +390,7 @@ services:
       - BSKY_DB_POSTGRES_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database/bsky
       - BSKY_DID_PLC_URL=https://${plcFQDN}
       - BSKY_LABELS_FROM_ISSUER_DIDS=${BSKY_LABELS_FROM_ISSUER_DIDS}
-      - BSKY_PUBLIC_URL=https://public-api.si46.world
+      - BSKY_PUBLIC_URL=https://api.bsky.app
       - BSKY_REPO_PROVIDER=wss://${bgsFQDN}
       - BSKY_SEARCH_URL=https://${palomarFQDN}
       - BSKY_SERVER_DID=did:web:bsky.si46.world
