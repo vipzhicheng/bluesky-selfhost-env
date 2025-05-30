@@ -281,13 +281,13 @@ services:
     user: root
     # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
     environment:
-      - DEBUG_MODE=1
-      - GOINSECURE=${GOINSECURE}
+      # - DEBUG_MODE=1
+      # - GOINSECURE=${GOINSECURE}
       - LOG_DESTINATION=1
       - LOG_ENABLED=true
       - LOG_LEVEL=${LOG_LEVEL_DEFAULT}
-      - NODE_ENV=development
-      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
+      # - NODE_ENV=development
+      # - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
       - PDS_ADMIN_PASSWORD=${PDS_ADMIN_PASSWORD}
 
       # - PDS_BLOBSTORE_DISK_LOCATION=/pds/blobs
@@ -317,6 +317,9 @@ services:
       - PDS_JWT_SECRET=${PDS_JWT_SECRET}
       - PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX=${PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX}
       - PDS_PORT=2583
+
+      - PDS_REPORT_SERVICE_URL=https://mod.bsky.app
+      - PDS_REPORT_SERVICE_DID=did:plc:ar7c4by46qjdydhdevvrndac
       # starts: unset optional env for tesing ozone >>>>>>>
       #     - PDS_MOD_SERVICE_DID=did:web:${ozoneFQDN}
       #     - PDS_MOD_SERVICE_URL=https://${ozoneFQDN}
@@ -326,7 +329,7 @@ services:
       - PDS_SERVICE_DID=did:web:pds-dev.si46.world
     volumes:
       # supporting self-signed certificates, easiest way >>>>
-      - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
       # supporting self-signed certificates, easiest way <<<<
       - pds-dev:/pds
     restart: always
