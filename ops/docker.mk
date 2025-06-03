@@ -98,6 +98,7 @@ docker-start-bsky-jetstream:: _applySjetstream _dockerUp
 ifeq ($(auto_watchlog),true)
 docker-start-bsky-jetstream:: docker-watchlog
 endif
+docker-start-redis-only:: _applySredisOnly _dockerUp
 
 # execute publishFeed on feed-generator
 publishFeed:
@@ -153,6 +154,8 @@ _applySbsky:
 	$(eval services=${Sbsky})
 _applySbskyOnly:
 	$(eval services=bsky)
+_applySredisOnly:
+	$(eval services=redis)
 _applySbskySubOnly:
 	$(eval services=bsky-sub)
 _applySpdsDevOnly:
