@@ -100,6 +100,8 @@ docker-start-bsky-jetstream:: docker-watchlog
 endif
 docker-start-redis-only:: _applySredisOnly _dockerUp
 
+docker-start-opensearch-only:: _applySopensearchOnly _dockerUp
+
 # execute publishFeed on feed-generator
 publishFeed:
 	DOMAIN=${DOMAIN} asof=${asof} docker_network=${docker_network} ${dockerCompose} -f ${f} exec feed-generator /app/scripts/publishFeed.exp ${FEEDGEN_PUBLISHER_HANDLE} "${FEEDGEN_PUBLISHER_PASSWORD}" https://${pdsFQDN} whats-alf
@@ -156,6 +158,8 @@ _applySbskyOnly:
 	$(eval services=bsky)
 _applySredisOnly:
 	$(eval services=redis)
+_applySopensearchOnly:
+	$(eval services=opensearch)
 _applySbskySubOnly:
 	$(eval services=bsky-sub)
 _applySpdsDevOnly:
