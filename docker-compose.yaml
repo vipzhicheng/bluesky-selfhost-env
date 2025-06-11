@@ -167,7 +167,7 @@ services:
     environment:
       - GOINSECURE=${GOINSECURE}
       - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
-      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
       - bootstrap.memory_lock=true
       - cluster.name=docker-cluster
@@ -180,6 +180,8 @@ services:
       memlock:
         soft: -1
         hard: -1
+    mem_limit: 4g # 确保容器有足够内存（堆内存的两倍）
+    mem_reservation: 2g # 预留内存
     volumes:
       - opensearch:/usr/share/opensearch/data/
     restart: always
