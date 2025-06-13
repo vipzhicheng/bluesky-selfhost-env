@@ -434,6 +434,11 @@ services:
     # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. >>>>
     user: root
     # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
+    logging:
+      driver: json-file
+      options:
+        max-size: "1g" # 单个日志文件最大大小为 5g
+        max-file: "5" # 最多保留 3 个日志文件
     environment:
       - BSKY_ADMIN_PASSWORDS=${BSKY_ADMIN_PASSWORDS}
       - BSKY_BLOB_CACHE_LOC=/cache/
@@ -506,6 +511,11 @@ services:
       # supporting self-signed certificates, easiest way >>>>
       - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
       # supporting self-signed certificates, easiest way <<<<
+    logging:
+      driver: json-file
+      options:
+        max-size: "1g" # 单个日志文件最大大小为 5g
+        max-file: "5" # 最多保留 3 个日志文件
     environment:
       # refer https://github.com/bluesky-social/indigo/tree/main/cmd/palomar
 
