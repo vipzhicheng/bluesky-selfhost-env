@@ -504,7 +504,7 @@ services:
     restart: always
 
   palomar:
-    image: itaru2622/bluesky-indigo-palomar:${asof}
+    image: astranethub/bluesky-indigo-palomar:${asof}
     ports:
       - 3999:3999
     volumes:
