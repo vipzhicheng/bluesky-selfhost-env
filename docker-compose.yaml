@@ -161,7 +161,7 @@ services:
     restart: always
 
   opensearch:
-    image: itaru2622/bluesky-indigo-opensearch:${asof}
+    image: astranethub/bluesky-indigo-opensearch:${asof}
     ports:
       - 9200:9200
     environment:

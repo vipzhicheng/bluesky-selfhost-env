@@ -100,9 +100,9 @@ docker-start-bsky-jetstream:: docker-watchlog
 endif
 docker-start-redis-only:: _applySredisOnly _dockerUp
 
-docker-start-opensearch-only:: _applySopensearchOnly _dockerUp
+# docker-start-opensearch-only:: _applySopensearchOnly _dockerUp
 
-docker-start-palomar-only:: _applySpalomarOnly  _dockerUp
+docker-start-palomar-only:: _applySpalomarOnly _dockerUp
 
 # execute publishFeed on feed-generator
 publishFeed:
@@ -160,8 +160,8 @@ _applySbskyOnly:
 	$(eval services=bsky)
 _applySredisOnly:
 	$(eval services=redis)
-_applySopensearchOnly:
-	$(eval services=opensearch)
+# _applySopensearchOnly:
+# 	$(eval services=opensearch)
 _applySpalomarOnly:
 	$(eval services=palomar)
 _applySbskySubOnly:
