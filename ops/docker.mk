@@ -101,7 +101,8 @@ endif
 docker-start-redis-only:: _applySredisOnly _dockerUp
 
 docker-start-opensearch-only:: _applySopensearchOnly _dockerUp
-docker-start-palomar-only:: _applySpalomarOnly _dockerUp
+
+docker-start-palomar-only:: _applySpalomarOnly  _dockerUp
 
 # execute publishFeed on feed-generator
 publishFeed:
