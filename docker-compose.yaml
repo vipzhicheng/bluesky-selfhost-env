@@ -258,6 +258,8 @@ services:
       - PDS_JWT_SECRET=${PDS_JWT_SECRET}
       - PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX=${PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX}
       - PDS_PORT=2583
+      - PDS_REPORT_SERVICE_URL=https://mod.bsky.app
+      - PDS_REPORT_SERVICE_DID=did:plc:ar7c4by46qjdydhdevvrndac
       # starts: unset optional env for tesing ozone >>>>>>>
       #     - PDS_MOD_SERVICE_DID=did:web:${ozoneFQDN}
       #     - PDS_MOD_SERVICE_URL=https://${ozoneFQDN}
