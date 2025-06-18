@@ -224,6 +224,7 @@ services:
     # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
     environment:
       - DEBUG_MODE=1
+      - PDS_INVITE_REQUIRED=true
       - GOINSECURE=${GOINSECURE}
       - LOG_DESTINATION=1
       - LOG_ENABLED=true
