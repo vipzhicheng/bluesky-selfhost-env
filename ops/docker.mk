@@ -175,6 +175,8 @@ _applySbskySubOnly:
 	$(eval services=bsky-sub)
 _applySpdsDevOnly:
 	$(eval services=pds-dev)
+_applySpdsHomesOnly:
+	$(eval services=pds-homes)
 _applySsocialAppOnly:
 	$(eval services=social-app)
 _applySpdsOnly:
