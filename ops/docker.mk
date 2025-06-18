@@ -73,6 +73,11 @@ ifeq ($(auto_watchlog),true)
 docker-start-pds-dev-only:: docker-watchlog-pds-dev
 endif
 
+docker-start-pds-homes-only:: _applySpdsHomesOnly _dockerUp
+ifeq ($(auto_watchlog),true)
+docker-start-pds-homes-only:: docker-watchlog-pds-homes
+endif
+
 docker-start-pds-only:: _applySpdsOnly _dockerUp
 ifeq ($(auto_watchlog),true)
 docker-start-pds-only:: docker-watchlog-pds
@@ -126,6 +131,8 @@ docker-watchlog:
 
 docker-watchlog-pds-dev:
 	-${dockerCompose} -f ${f} logs --tail=20 -f pds-dev || true
+docker-watchlog-pds-homes:
+	-${dockerCompose} -f ${f} logs --tail=20 -f pds-homes || true
 
 docker-watchlog-pds:
 	-${dockerCompose} -f ${f} logs --tail=20 -f pds || true
