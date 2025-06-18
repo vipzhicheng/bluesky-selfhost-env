@@ -23,6 +23,8 @@ volumes:
     name: pds
   pds-dev:
     name: pds-dev
+  pds-homes:
+    name: bsky-homes
   redis:
     name: redis
   jetstream:
@@ -272,6 +274,70 @@ services:
       - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
       # supporting self-signed certificates, easiest way <<<<
       - pds:/pds
+    restart: always
+    depends_on:
+      - database
+      # - caddy
+
+  pds-homes:
+    image: astranethub/bluesky-atproto-pds:${asof}
+    ports:
+      - 3501:2583
+    expose:
+      - 2583
+    # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. >>>>
+    user: root
+    # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
+    environment:
+      - DEBUG_MODE=1
+      - GOINSECURE=${GOINSECURE}
+      - LOG_DESTINATION=1
+      - LOG_ENABLED=true
+      - LOG_LEVEL=${LOG_LEVEL_DEFAULT}
+      - NODE_ENV=production
+      - NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}
+      - PDS_ADMIN_PASSWORD=${PDS_ADMIN_PASSWORD}
+
+      # - PDS_BLOBSTORE_DISK_LOCATION=/pds/blobs
+      - PDS_BLOBSTORE_S3_BUCKET=
+      - PDS_BLOBSTORE_DISK_LOCATION=
+
+      - PDS_BLOBSTORE_BUNNY_STORAGE_ZONE=si46-homes
+      - PDS_BLOBSTORE_BUNNY_ACCESS_KEY=86ed6c6a-5242-4574-9958cd33351b-e27a-4e0e
+      - PDS_BLOBSTORE_BUNNY_REGION=LosAngeles
+      - PDS_BLOBSTORE_BUNNY_UPLOAD_TIMEOUT_MS=60000
+
+      - PDS_BLOB_UPLOAD_LIMIT=104857600
+      - PDS_BSKY_APP_VIEW_DID=did:web:${bskyFQDN}
+      - PDS_BSKY_APP_VIEW_URL=https://${bskyFQDN}
+      - PDS_CRAWLERS=https://${bgsFQDN}
+      - PDS_DATA_DIRECTORY=/pds
+      - PDS_DEV_MODE=true
+      #     - PDS_BLOBSTORE_DISK_TMP_LOCATION=/pds/image/tmp
+      - PDS_DID_PLC_URL=https://${plcFQDN}
+      - PDS_EMAIL_FROM_ADDRESS=${PDS_EMAIL_FROM_ADDRESS}
+      - PDS_EMAIL_SMTP_URL=${PDS_EMAIL_SMTP_URL}
+      - PDS_ENABLE_DID_DOC_WITH_SESSION=true
+      - PDS_HOSTNAME=si46.homes
+      - PDS_INVITE_INTERVAL=604800000
+      - PDS_INVITE_REQUIRED=true
+      - PDS_JWT_SECRET=${PDS_JWT_SECRET}
+      - PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX=${PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX}
+      - PDS_PORT=2583
+      - PDS_REPORT_SERVICE_URL=https://mod.bsky.app
+      - PDS_REPORT_SERVICE_DID=did:plc:ar7c4by46qjdydhdevvrndac
+      # starts: unset optional env for tesing ozone >>>>>>>
+      #     - PDS_MOD_SERVICE_DID=did:web:${ozoneFQDN}
+      #     - PDS_MOD_SERVICE_URL=https://${ozoneFQDN}
+      #     - PDS_REPORT_SERVICE_DID=did:web:${ozoneFQDN}
+      #     - PDS_REPORT_SERVICE_URL=https://${ozoneFQDN}
+      # ends: unset optional env for tesing ozone <<<<<<<<
+      - PDS_SERVICE_DID=did:web:si46.homes
+    volumes:
+      # supporting self-signed certificates, easiest way >>>>
+      - ./certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # supporting self-signed certificates, easiest way <<<<
+      - pds-homes:/pds
     restart: always
     depends_on:
       - database
