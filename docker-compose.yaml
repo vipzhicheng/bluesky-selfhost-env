@@ -224,7 +224,6 @@ services:
     # to fix permision mismatch between volume owner(root) and process user(uid:1000, i.e: node), run as root. <<<<
     environment:
       - DEBUG_MODE=1
-      - PDS_INVITE_REQUIRED=true
       - GOINSECURE=${GOINSECURE}
       - LOG_DESTINATION=1
       - LOG_ENABLED=true
@@ -255,7 +254,7 @@ services:
       - PDS_ENABLE_DID_DOC_WITH_SESSION=true
       - PDS_HOSTNAME=${pdsFQDN}
       - PDS_INVITE_INTERVAL=604800000
-      - PDS_INVITE_REQUIRED=false
+      - PDS_INVITE_REQUIRED=true
       - PDS_JWT_SECRET=${PDS_JWT_SECRET}
       - PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX=${PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX}
       - PDS_PORT=2583
